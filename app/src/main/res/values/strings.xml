@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Screenshot Helper</string>
+    <string name="accessibility_service_description">Enable Accessibility Service to perform a global action. For example going back, opening power dialog, etc. Please be assured that Screenshot Helper will not collect any personal information. Tap the switch at the top-right corner. After tapping the switch , the system will send a notice warning you about your personal information. System Requirements: Android 4.1 or later version</string>
+    <string name="accessibility_service_summary">Enable Accessibility Service to perform a global action. For example going back, opening power dialog, etc. Please be assured that Screenshot Helper will not collect any personal information.</string>
+</resources>

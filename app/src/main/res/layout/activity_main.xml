@@ -3,127 +3,140 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cl_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:text="@string/this_app_required_2_permissions"
-            android:textSize="20sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_permission_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="1. Draw over other app permission."
-            android:textSize="16sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_header" />
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_permission_status_1"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="28dp"
-            android:visibility="invisible"
-            android:contentDescription="@string/iv_permission_status_1"
-            android:src="@drawable/ic_cross"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_permission_1"
-            app:layout_constraintStart_toEndOf="@+id/btn_permission_1"
-            app:layout_constraintTop_toTopOf="@+id/btn_permission_1"
-            app:layout_constraintVertical_bias="0.437" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="56dp"
+                    android:text="@string/this_app_required_2_permissions"
+                    android:textSize="20sp"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_permission_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="36dp"
-            android:visibility="invisible"
-            android:text="Open Setting"
-            app:layout_constraintStart_toStartOf="@+id/tv_permission_1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_permission_1" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_permission_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:text="1. Draw over other app permission."
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.491"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_header" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_status_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="Not Granted"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_permission_status_1"
-            app:layout_constraintStart_toEndOf="@+id/iv_permission_status_1"
-            app:layout_constraintTop_toTopOf="@+id/iv_permission_status_1" />
+                <ImageView
+                    android:id="@+id/iv_permission_status_1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="28dp"
+                    android:visibility="invisible"
+                    android:contentDescription="@string/iv_permission_status_1"
+                    android:src="@drawable/ic_cross"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_permission_1"
+                    app:layout_constraintStart_toEndOf="@+id/btn_permission_1"
+                    app:layout_constraintTop_toTopOf="@+id/btn_permission_1"
+                    app:layout_constraintVertical_bias="0.437" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_permission_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_marginTop="36dp"
-            android:text="2. Accessibility Service."
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_permission_1"
-            app:layout_constraintTop_toBottomOf="@+id/btn_permission_1" />
+                <Button
+                    android:id="@+id/btn_permission_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="36dp"
+                    android:visibility="invisible"
+                    android:text="Open Setting"
+                    app:layout_constraintStart_toStartOf="@+id/tv_permission_1"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_permission_1" />
 
-        <ImageView
-            android:id="@+id/iv_permission_status_2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:visibility="invisible"
-            android:layout_marginStart="28dp"
-            android:contentDescription="@string/iv_permission_status_2"
-            android:src="@drawable/ic_cross"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_permission_2"
-            app:layout_constraintStart_toEndOf="@+id/btn_permission_2"
-            app:layout_constraintTop_toTopOf="@+id/btn_permission_2"
-            app:layout_constraintVertical_bias="0.437" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_status_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:text="Not Granted"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_permission_status_1"
+                    app:layout_constraintStart_toEndOf="@+id/iv_permission_status_1"
+                    app:layout_constraintTop_toTopOf="@+id/iv_permission_status_1" />
 
-        <Button
-            android:id="@+id/btn_permission_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="36dp"
-            android:text="Open Setting"
-            app:layout_constraintStart_toStartOf="@+id/tv_permission_2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_permission_2" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_permission_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_marginTop="36dp"
+                    android:text="2. Accessibility Service."
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_permission_1"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_permission_1" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_status_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="Not Granted"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_permission_status_2"
-            app:layout_constraintStart_toEndOf="@+id/iv_permission_status_2"
-            app:layout_constraintTop_toTopOf="@+id/iv_permission_status_2" />
+                <ImageView
+                    android:id="@+id/iv_permission_status_2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:visibility="invisible"
+                    android:layout_marginStart="28dp"
+                    android:contentDescription="@string/iv_permission_status_2"
+                    android:src="@drawable/ic_cross"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_permission_2"
+                    app:layout_constraintStart_toEndOf="@+id/btn_permission_2"
+                    app:layout_constraintTop_toTopOf="@+id/btn_permission_2"
+                    app:layout_constraintVertical_bias="0.437" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/btn_permission_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="36dp"
+                    android:text="Open Setting"
+                    app:layout_constraintStart_toStartOf="@+id/tv_permission_2"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_permission_2" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_status_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:text="Not Granted"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_permission_status_2"
+                    app:layout_constraintStart_toEndOf="@+id/iv_permission_status_2"
+                    app:layout_constraintTop_toTopOf="@+id/iv_permission_status_2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

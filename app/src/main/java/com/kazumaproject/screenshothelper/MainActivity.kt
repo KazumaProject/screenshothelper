@@ -1,97 +1,110 @@
 package com.kazumaproject.screenshothelper
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
+import com.kazumaproject.screenshothelper.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val mainViewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
 
-    private lateinit var rootLayout: ConstraintLayout
-    private lateinit var progress: ProgressBar
-    private lateinit var tvHeader: TextView
-    private lateinit var tvPermission1: TextView
-    private lateinit var tvPermission2: TextView
-    private lateinit var ivPermission1: ImageView
-    private lateinit var ivPermission2: ImageView
-    private lateinit var btnPermission1: Button
-    private lateinit var btnPermission2: Button
-    private lateinit var tvPermissionStatus1: TextView
-    private lateinit var tvPermissionStatus2: TextView
-
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        findViews()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         supportActionBar?.hide()
 
         mainViewModel.bothPermissions.observe(this,{
             if (it){
+                binding.progress.isVisible = true
+                hideViews()
                 this.finish()
             }else {
+                binding.progress.isVisible = false
                 showViews()
             }
         })
 
-        mainViewModel.drawOverOtherAppPermission.observe(this, {
-
+        mainViewModel.drawOverOtherAppPermission.observe(this, { isGranted ->
+            if (isGranted){
+                binding.ivPermissionStatus1.setImageResource(R.drawable.ic_check)
+                binding.tvStatus1.text = "Granted"
+            }else {
+                binding.ivPermissionStatus1.setImageResource(R.drawable.ic_cross)
+                binding.tvStatus1.text = "Not Granted"
+            }
         })
 
-        mainViewModel.accessibilityServicePermission.observe(this,{
-
+        mainViewModel.accessibilityServicePermission.observe(this,{isGranted ->
+            if (isGranted){
+                binding.ivPermissionStatus2.setImageResource(R.drawable.ic_check)
+                binding.tvStatus2.text = "Granted"
+            }else {
+                binding.ivPermissionStatus2.setImageResource(R.drawable.ic_cross)
+                binding.tvStatus2.text = "Not Granted"
+            }
         })
+
+        binding.btnPermission1.setOnClickListener {
+            requestDrawOverOtherAppPermission()
+        }
+
+        binding.srlMain.setOnRefreshListener {
+            recreate()
+            binding.srlMain.isRefreshing = false
+        }
 
     }
 
-    private fun findViews(){
-        rootLayout = findViewById(R.id.cl_parent_layout)
-        progress = findViewById(R.id.progress)
-        tvHeader = findViewById(R.id.tv_header)
-        tvPermission1 = findViewById(R.id.tv_permission_1)
-        tvPermission2 = findViewById(R.id.tv_permission_2)
-        tvPermissionStatus1 = findViewById(R.id.tv_status_1)
-        tvPermissionStatus2 = findViewById(R.id.tv_status_2)
-        ivPermission1 = findViewById(R.id.iv_permission_status_1)
-        ivPermission2 = findViewById(R.id.iv_permission_status_2)
-        btnPermission1 = findViewById(R.id.btn_permission_1)
-        btnPermission2 = findViewById(R.id.btn_permission_2)
+    private fun requestDrawOverOtherAppPermission(){
+        if (!Settings.canDrawOverlays(this)){
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.data = Uri.parse("package:" + this.packageName)
+            this.startActivity(intent)
+        }
     }
 
     private fun showViews(){
-        tvHeader.isVisible = true
-        tvPermission1.isVisible = true
-        tvPermission2.isVisible = true
-        tvPermissionStatus1.isVisible = true
-        tvPermissionStatus2.isVisible = true
-        ivPermission1.isVisible = true
-        ivPermission2.isVisible = true
-        btnPermission1.isVisible = true
-        btnPermission2.isVisible = true
+        binding.tvHeader.isVisible = true
+        binding.tvHeader.isVisible = true
+        binding.tvPermission1.isVisible = true
+        binding.tvPermission2.isVisible = true
+        binding.tvStatus1.isVisible = true
+        binding.tvStatus2.isVisible = true
+        binding.ivPermissionStatus1.isVisible = true
+        binding.ivPermissionStatus2.isVisible = true
+        binding.btnPermission1.isVisible = true
+        binding.btnPermission2.isVisible = true
     }
 
     private fun hideViews(){
-        tvHeader.isVisible = false
-        tvPermission1.isVisible = false
-        tvPermission2.isVisible = false
-        tvPermissionStatus1.isVisible = false
-        tvPermissionStatus2.isVisible = false
-        ivPermission1.isVisible = false
-        ivPermission2.isVisible = false
-        btnPermission1.isVisible = false
-        btnPermission2.isVisible = false
+        binding.tvHeader.isVisible = false
+        binding.tvHeader.isVisible = false
+        binding.tvPermission1.isVisible = false
+        binding.tvPermission2.isVisible = false
+        binding.tvStatus1.isVisible = false
+        binding.tvStatus2.isVisible = false
+        binding.ivPermissionStatus1.isVisible = false
+        binding.ivPermissionStatus2.isVisible = false
+        binding.btnPermission1.isVisible = false
+        binding.btnPermission2.isVisible = false
     }
 
 }

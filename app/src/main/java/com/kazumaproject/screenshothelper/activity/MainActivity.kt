@@ -1,4 +1,4 @@
-package com.kazumaproject.screenshothelper
+package com.kazumaproject.screenshothelper.activity
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.kazumaproject.screenshothelper.R
 import com.kazumaproject.screenshothelper.databinding.ActivityMainBinding
 import com.kazumaproject.screenshothelper.service.FloatingService
 import com.kazumaproject.screenshothelper.service.NavigationService

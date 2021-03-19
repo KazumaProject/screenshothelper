@@ -9,12 +9,14 @@ import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.kazumaproject.screenshothelper.MainActivity
 import com.kazumaproject.screenshothelper.R
+import com.kazumaproject.screenshothelper.activity.MainActivity
+import com.kazumaproject.screenshothelper.activity.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,6 +53,7 @@ class FloatingService: Service() {
                     NavigationService.navigationService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT)
                     delay(2000)
                     iconView.alpha = 1.0f
+                    visibleState = true
                 }
             }
             return true
@@ -78,7 +81,6 @@ class FloatingService: Service() {
     @SuppressLint("InflateParams", "ClickableViewAccessibility")
     override fun onCreate() {
         super.onCreate()
-
         rootView = LayoutInflater.from(this).inflate(R.layout.service_layout, null)
         iconView = rootView.findViewById(R.id.touch_img)
 
@@ -108,16 +110,13 @@ class FloatingService: Service() {
                 }
                 MotionEvent.ACTION_UP ->{
 
-                    var difX :Int = (event.rawX - initialTouchX).toInt()
-                    var difY :Int = (event.rawY - initialTouchY).toInt()
-
                     val height = displayMetrics.heightPixels
                     val heightSize = 4
                     val heightDif = height - heightSize
                     val width = displayMetrics.widthPixels
                     val detectionX = width/2
                     val valueAnimator: ValueAnimator?
-                    
+
                     when{
                         event.rawX > detectionX &&
                         event.rawY > heightSize &&
@@ -162,17 +161,11 @@ class FloatingService: Service() {
             return@setOnTouchListener false
         }
 
-        Toast.makeText(this, "Service is Created", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         windowManager.removeView(rootView)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -199,6 +192,9 @@ class FloatingService: Service() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val intent2 = Intent(this, SettingsActivity::class.java)
+        intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val pendingIntent2 = PendingIntent.getActivity(this, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT)
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
         val notification = notificationBuilder
                 .setOngoing(true)
@@ -208,6 +204,7 @@ class FloatingService: Service() {
                 .setSmallIcon(R.drawable.logo2)
                 .setShowWhen(false)
                 .addAction(R.drawable.logo2,"Stop",pendingIntent)
+                .addAction(R.drawable.logo2,"Setting",pendingIntent2)
                 .build()
         startForeground(2, notification)
     }

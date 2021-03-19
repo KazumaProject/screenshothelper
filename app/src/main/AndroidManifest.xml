@@ -11,8 +11,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.Screenshothelper">
+        android:theme="@style/Theme.Screenshothelper"
+        >
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings">
+
+        </activity>
+
         <service android:name=".service.FloatingService">
 
         </service>
@@ -22,11 +28,13 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,9 +1,11 @@
 package com.kazumaproject.screenshothelper.service
 
 import android.accessibilityservice.AccessibilityService
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.util.DisplayMetrics
@@ -18,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class FloatingService: Service() {
@@ -81,7 +84,7 @@ class FloatingService: Service() {
 
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        windowManager.defaultDisplay.getRealMetrics(displayMetrics)
         layoutparams = WindowManager.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -108,6 +111,44 @@ class FloatingService: Service() {
                     var difX :Int = (event.rawX - initialTouchX).toInt()
                     var difY :Int = (event.rawY - initialTouchY).toInt()
 
+                    val height = displayMetrics.heightPixels
+                    val heightSize = 4
+                    val heightDif = height - heightSize
+                    val width = displayMetrics.widthPixels
+                    val detectionX = width/2
+                    val valueAnimator: ValueAnimator?
+                    
+                    when{
+                        event.rawX > detectionX &&
+                        event.rawY > heightSize &&
+                        event.rawY < heightDif ->{
+                            valueAnimator = ValueAnimator.ofFloat(layoutparams.x.toFloat(), width.toFloat() - detectionX)
+                            valueAnimator?.let {
+                                it.duration = 500
+                                it.addUpdateListener { animation ->
+                                    layoutparams.x = (animation.animatedValue as Float).roundToInt()
+                                    windowManager.updateViewLayout(rootView,layoutparams)
+                                }
+                            }
+                            valueAnimator?.start()
+                        }
+
+                        event.rawX < detectionX &&
+                        event.rawY > heightSize &&
+                        event.rawY < heightDif ->{
+                            valueAnimator = ValueAnimator.ofFloat(layoutparams.x.toFloat(), 0.0f - detectionX)
+                            valueAnimator?.let {
+                                it.duration = 500
+                                it.addUpdateListener { animation ->
+                                    layoutparams.x = (animation.animatedValue as Float).roundToInt()
+                                    windowManager.updateViewLayout(rootView,layoutparams)
+                                }
+                            }
+                            valueAnimator?.start()
+                        }
+
+                    }
+
                     return@setOnTouchListener true
                 }
                 MotionEvent.ACTION_MOVE ->{
@@ -129,6 +170,10 @@ class FloatingService: Service() {
         windowManager.removeView(rootView)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null

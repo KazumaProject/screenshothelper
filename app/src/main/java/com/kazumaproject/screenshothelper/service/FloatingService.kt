@@ -203,6 +203,8 @@ class FloatingService: Service() {
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.logo2)
                 .setShowWhen(false)
+                .setStyle(NotificationCompat.BigTextStyle().bigText("Single tap -> Take a screenshot \n" +
+                        "Long tap -> Toggle transparent"))
                 .addAction(R.drawable.logo2,"Stop",pendingIntent)
                 .addAction(R.drawable.logo2,"Setting",pendingIntent2)
                 .build()

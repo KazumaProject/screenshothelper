@@ -4,5 +4,5 @@
     <string name="accessibility_service_summary">Enable Accessibility Service to perform a global action. For example going back, opening power dialog, etc. Please be assured that Screenshot Helper will not collect any personal information.</string>
     <string name="iv_permission_status_1">iv_permission_status_1</string>
     <string name="iv_permission_status_2">iv_permission_status_2</string>
-    <string name="this_app_required_2_permissions">This app required 2 permissions.</string>
+    <string name="this_app_required_2_permissions">This app required a permission.</string>
 </resources>

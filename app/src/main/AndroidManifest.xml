@@ -13,11 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Screenshothelper"
         >
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings">
-
-        </activity>
 
         <service android:name=".service.FloatingService">
 

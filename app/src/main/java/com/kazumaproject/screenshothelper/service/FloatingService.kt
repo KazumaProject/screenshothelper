@@ -5,18 +5,14 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.kazumaproject.screenshothelper.R
 import com.kazumaproject.screenshothelper.activity.MainActivity
-import com.kazumaproject.screenshothelper.activity.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,8 +55,7 @@ class FloatingService: Service() {
             return true
         }
 
-        override fun onLongPress(e: MotionEvent?) {
-            super.onLongPress(e)
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
             if (visibleState){
                 iconView.alpha = 0.3f
                 visibleState = false
@@ -68,6 +63,12 @@ class FloatingService: Service() {
                 iconView.alpha = 1.0f
                 visibleState = true
             }
+            return true
+        }
+
+        override fun onLongPress(e: MotionEvent?) {
+            super.onLongPress(e)
+            stopSelf()
         }
 
     })
@@ -192,10 +193,8 @@ class FloatingService: Service() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        val intent2 = Intent(this, SettingsActivity::class.java)
-        intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        val pendingIntent2 = PendingIntent.getActivity(this, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT)
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+
         val notification = notificationBuilder
                 .setOngoing(true)
                 .setContentTitle("Screenshot Helper is active.")
@@ -204,9 +203,8 @@ class FloatingService: Service() {
                 .setSmallIcon(R.drawable.logo2)
                 .setShowWhen(false)
                 .setStyle(NotificationCompat.BigTextStyle().bigText("Single tap -> Take a screenshot \n" +
-                        "Long tap -> Toggle transparent"))
+                        "Double tap -> Toggle transparent \n" + "Long tap -> Stop Screenshot Helper"))
                 .addAction(R.drawable.logo2,"Stop",pendingIntent)
-                .addAction(R.drawable.logo2,"Setting",pendingIntent2)
                 .build()
         startForeground(2, notification)
     }
